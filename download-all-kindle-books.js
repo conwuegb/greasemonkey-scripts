@@ -52,7 +52,7 @@
 
       // Function to handle processing of each dropdown
       async function processDropdowns() {
-          // Get all dropdowns with the class prefix 'Dropdown-module_container__'
+          // Get all dropdowns with the class prefix 'Dropdown-module_container__' and their accompanying titles
           const dropdowns = document.querySelectorAll('[class^="Dropdown-module_container__"]');
           const titles = document.querySelectorAll('[class^="digital_entity_title"]');
 
@@ -73,7 +73,7 @@
                     topDiv.querySelector('div').click();
                     resolve();
                   }
-                  reject(`Download not available for i = ${i+1}: ${titles[i].textContent}`);
+                  reject(`Download not available for Book ${i+1}: ${titles[i].textContent}`);
               }, 500))
               .then(() => continueProcessing(dropdown)) // If download available, continue processing dropdown
               .catch(e => console.log(e)); // If download unavailable, skip to the next dropdown
@@ -82,11 +82,11 @@
           console.log('All dropdowns processed');
       }
 
+      // Finish processing downloadable book
       async function continueProcessing(dropdown) {
         await new Promise(resolve => setTimeout(() => {
-            //   clickElementWithin(dropdown, 'span[id^="download_and_transfer_list_"]'); // Choose the first Kindle in list
-              // If you want the second Kindle in the list, change the above line to this instead (for the third, you'd change the [1] to [2] and so on):
-                dropdown.querySelectorAll('span[id^="download_and_transfer_list_"]')[2].click();
+              dropdown.querySelectorAll('span[id^="download_and_transfer_list_"]')[0].click(); // Choose the first Kindle in the list
+              // TODO: If you want the second Kindle in the list, change the [0] in the above line to [1] (for the third, you'd change it to [2] and so on)
               resolve();
           }, 500));
 
@@ -102,8 +102,8 @@
           }, 500));
 
           // Wait a little before processing the next dropdown
-          // This is set to 5 seconds - you can speed this up even faster if you prefer
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          // TODO: This is set to 2 seconds - you can speed this up even faster if you prefer
+          await new Promise(resolve => setTimeout(resolve, 2000));
       }
 
       // Button click event to start processing all dropdowns
